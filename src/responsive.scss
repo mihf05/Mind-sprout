@@ -1,0 +1,59 @@
+.sideMenuBlock{
+    display: none;
+}
+
+//* sideMenu 
+@media only screen and (max-width: 1350px) {
+    .App{
+        --width: min(80vw, var(--sideMenuWidth));
+        &:has(.sideMenuHide.unHide){
+            height: 100vh;
+            overflow: hidden;
+            .sideMenuBlock{
+                opacity: 1;
+                pointer-events: auto;
+                span{
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .menuIcon,
+    .userPhotoWrapper{
+        display: flex !important; 
+    }
+    .sideMenuBlock{
+        display: block;
+    }
+
+    .sideMenuHide{
+        width: var(--width);
+        position: absolute;
+        translate: -100%;
+        z-index: 100;
+        &.unHide{
+            translate: 0;
+        }
+        transition: translate .3s ease-in-out;
+    }
+        
+    .sideMenuBlock{
+        position: absolute;
+        inset: 0;
+        background-color: var(--modal-bg);
+        z-index: 100;
+        opacity: 0;
+        transition: opacity .3s ease-in-out;
+        pointer-events: none;
+        border: none;
+
+        cursor: pointer;
+        span{
+            translate: calc(var(--width) / 2);
+            color: white;
+            display: none;
+        }
+
+    }
+}

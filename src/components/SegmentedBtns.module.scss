@@ -1,0 +1,103 @@
+button{
+    position: relative;
+    overflow: hidden;
+}
+
+.segmentedButtons{
+    button{
+    position: relative;
+    overflow: hidden;
+}
+
+    margin-top: 2rem;
+    border-radius: 25px;
+    background-color: var(--bg-clr-100);
+
+    padding: var(--gap);
+
+    // .subjectNameWrapper{
+        display: flex;
+        gap: var(--gap);
+        // width: 100%;
+
+
+    // }
+
+    .btnContainer{
+        width: 100%;
+        border-radius: 30px;
+
+        .paperSelectDiv{
+            button{
+                transition: transform .25s ease-out;
+
+                *{
+                    transform: translateX(-12px);
+                }
+            }
+            display: flex;
+            margin-top: var(--gap);
+            gap: var(--gap);
+
+
+        }
+    }
+
+    button{
+        background-color: var(--atv-bg-clr-10);
+        width: 100%;
+        padding: 1rem;
+        // background-color: transparent;
+        border-radius: 134rem;
+        border: 0;
+        transition: background-color .25s ease-out;
+        font-weight: 500;
+        
+        *{
+            transform: translateX(-12px);
+        }
+
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: .3rem;
+
+        span{
+            opacity: 0;
+            translate: 0 5px;
+            transition: opacity .25s ease-out, translate .25s ease-out;
+        }
+
+        &:hover{
+            background-color: var(--atv-bg-clr-100);
+            color: var(--font-clr-active);
+        }
+    }
+
+    .active{
+        background-color: var(--atv-bg-clr);
+        color: var(--font-clr-active);
+        font-weight: 600;
+
+        &:hover{
+            background-color: var(--atv-bg-clr);
+        }
+
+        span{
+            opacity: 1;
+            translate: 0 0;
+        }
+
+        &.paperSelectBtn{
+            *{
+                transform: translate(0)!important;
+            }
+        }
+
+
+    }
+    
+
+
+}

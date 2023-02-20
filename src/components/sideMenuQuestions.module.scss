@@ -1,0 +1,36 @@
+.sideMenu{
+    padding-top: 0;
+    --margin-bottom: 1rem;
+    flex-shrink: 0;
+}
+
+.cancelSession{
+    background-color: var(--noneSelected-bg-clr-10);
+    margin-bottom: var(--margin-bottom);
+    padding: .8rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    color: var(--font-clr);
+    gap: .5rem;
+
+    p{
+        color: var(--font-clr-300);
+    }
+
+    *{
+        translate: -10px
+    }
+
+    &:hover{
+        box-shadow: 0 2px 2px 2px rgba(137, 137, 137, 0.252);
+    }
+
+}
+
+.sideCtx{
+    display: flex;
+    // span {
+    //     margin-left: 2rem ;
+    // }
+}

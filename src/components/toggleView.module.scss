@@ -1,0 +1,28 @@
+.container{
+    display: flex;
+    gap: .6rem;
+
+
+
+    button{
+        border: 1px solid var(--font-clr-100);
+        background: var(--noneSelected-bg-clr-10);
+        border-radius: 123rem;
+        padding-inline: 1.2rem;
+        padding-block: .2rem;
+        font-size: .9rem;
+        font-weight: 500;
+        transition: all .2s ease-out;
+        cursor: pointer;
+        transition-property: background-color, border-color;
+
+        &.active{
+            border-color: var(--accent);
+            background-color: var(--atv-bg-clr-100);
+            color: var(--font-clr-active);
+            font-weight: 600;
+        }
+
+
+    }
+}

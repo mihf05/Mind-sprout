@@ -1,0 +1,129 @@
+$gradient-color-1: #2a1483; 
+$gradient-color-2: var(--font-clr);
+$gradient-color-3: rgb(13, 43, 106);
+
+
+
+.header{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+
+    --border-radius: 25px;
+    border-radius: var(--border-radius);
+    padding: var(--heading-padding);
+    padding-block: 5rem;
+    margin: .5rem;
+
+
+    
+
+    @media only screen and (max-width: 700px) {
+        margin: 0;
+        --border-radius: 20px;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);        
+
+        h1{
+            background-image: none !important;
+            background-color: #190a55 !important;
+            background-size: initial !important;
+            animation: none !important;
+        }
+    } 
+
+    display: flex;  
+    align-items: center;
+    flex-direction: column;
+
+
+    h1{
+
+        font-size: clamp(3rem, 13.65vw, 7rem);
+        background-image: radial-gradient($gradient-color-3, $gradient-color-2, $gradient-color-1 , $gradient-color-3, $gradient-color-2, $gradient-color-1);
+        background-size: 800px 500px;
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        animation-duration: 30s;
+        animation-name: animationD;
+        animation-iteration-count: infinite;
+        animation-fill-mode: forwards;
+        animation-timing-function: ease-in-out;
+    }
+
+    p{
+        margin-top: .2rem;
+        font-size: var(--heading-sub-title);
+        word-spacing: 2px;
+        max-width: 720px;
+        text-align: center;
+    }
+
+}
+
+
+@keyframes animationD{
+    0% { background-position: 100px 100px}
+    10% { background-position: 150px 250px }
+    20% { background-position: 350px 000px}
+    30% { background-position: 300px 200px}
+    40% { background-position: 100px 150px}
+    50% { background-position: 150px 200px }
+    60% { background-position: 350px 100px}
+    70% { background-position: 300px 100px }
+    80% { background-position: 150px 150px}
+    90% { background-position: 100px 200px}
+    100% { background-position: 100px 100px }
+} 
+
+//* code for login streak --
+
+.loginStreakContainer{
+    display: grid;
+    place-items: center;
+    margin-bottom: 3rem;
+    background-color: var(--atv-bg-clr-10);
+    padding-block: 2rem;
+    border-radius: 25px;
+}
+
+
+.loginStreakWrapper {
+    // @include text-bold;
+    // font-family: var(--ff-primary);
+    font-weight: 700;
+    // line-height: 150%;
+    line-height: normal;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    font-size: var(--fs-sm);
+    color: var(--font-clr-500);
+
+}
+
+.top {
+    margin-bottom: -8px;
+
+}
+
+.main {
+    
+    .number {
+        line-height: 115%;   
+        font-size: clamp(8rem,  20vw, 10rem);
+        color: var(--font-clr);
+
+        & *{
+            font-family: 'Oswald', sans-serif;
+        }
+    }
+}
+
+.bottom {
+    font-size: .8rem;
+
+    .em {
+        color: var(--clr-gray-900);
+    }
+}

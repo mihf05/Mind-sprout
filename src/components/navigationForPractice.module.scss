@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    gap: clamp(.8rem, 2.5vw, 1rem);
+    position: relative;
+    z-index: 50;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    margin-bottom: 4rem;
+    
+    button{
+        margin-top: 0;
+        justify-content: center;
+    }
+
+    div{
+        display: flex;
+        gap: inherit;
+    }
+
+    @media only screen and (max-width: 500px) {
+        div, button{
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }           
+    }
+
+}  

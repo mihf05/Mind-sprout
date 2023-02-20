@@ -1,0 +1,127 @@
+.main{
+    --padding-inline: clamp(1rem, 5vw, 2rem); 
+    padding-inline: var(--padding-inline);
+    position: relative;
+
+    
+    .timerWrapper{
+        max-width: 300px;
+
+        text-align: center;
+        padding: 1rem;
+        font-size: 2rem;
+        font-weight: 700;
+        margin-top: 1rem;
+        margin-bottom: var(--margin-bottom);
+        background-color: var(--timer-color);
+        border-radius: 10px;
+        margin-inline: auto;
+        position: relative;
+        isolation: isolate;
+        overflow: hidden;
+
+
+        &::after{
+            position: absolute;
+            width: 102%;
+            aspect-ratio: 1/1;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            content: '';
+            background-color: var(--timer-color-red);
+            z-index: -1;
+            transition: transform .5s ease-out;
+        }
+
+
+    }
+
+    h1{
+        display: flex;
+        align-items: center;
+        gap: .1rem;
+        span{
+            scale: 1.2;
+        }
+    }
+
+    .menuIcon{
+        position: static;
+        background-color: var(--noneSelected-bg-clr-10);
+    }
+
+    &.active{
+        .cover{
+            transition: opacity .2s ease;
+            opacity: 1;
+        }
+
+        img{
+            opacity: 0;
+        }
+    }
+
+    &.loader{
+        height: 100vh !important;
+        display: grid;
+        place-items: center;
+        margin-bottom: 0 !important;
+        
+    }
+}
+
+.cover{
+    position: absolute;
+    inset: 0;
+    background-color: white;
+    z-index: 100;
+    opacity: 0;
+    transition: opacity .3s ease;
+    pointer-events: none;
+}
+
+.path{
+    margin-block: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: clamp(.8rem, 2vw, 1rem);
+    flex-wrap: wrap;
+}
+
+.swapper{
+    margin-top: 2rem;
+
+    &.imgWrapper{
+        margin-top: 0;
+    }
+}
+
+
+.imgWrapper{
+    max-width: 800px;
+
+    height: 600px;
+
+    @media only screen and (max-width: 700px) {
+        height: 300px;
+    }
+
+    margin-top: 2rem;
+
+    display: flex;
+    margin-inline: auto;
+    justify-content: center;
+
+    img{
+        object-fit: contain;
+    }
+}
+
+
+// code for zoom 
+// .imgWrapper{
+
+// }

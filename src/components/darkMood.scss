@@ -1,0 +1,38 @@
+.darkMoodBtn{
+    margin-top: auto;
+    background-color: transparent;
+    color: var(--font-clr-active);
+    border: 1px solid var(--font-clr-300);
+    padding: .8rem;
+    font-weight: 500;
+    width: 100%;
+    justify-content: center;
+    font-size: .8rem;
+    
+    p{
+        color: var(--font-clr-300);
+    }
+    display: flex;
+
+
+    position: relative;
+
+    &::after{
+        content: "";
+        position: absolute;
+        inset: 0;
+        border-radius: 123rem;
+        background: rgba(0, 0, 0, 0.327);
+        opacity: 0;
+        transition: opacity .25s ease-out;  
+    }
+
+    &:hover{
+        box-shadow: none;
+        &::after{
+            opacity: .1;
+        }
+    }
+
+    // margin-inline: auto;
+}

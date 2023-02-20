@@ -1,0 +1,24 @@
+.container{
+    --margin: clamp(1rem, 6vw, 5rem);
+    width: max-content;
+    max-width: 1200px;
+    margin-inline: var(--margin);
+
+    .backBtn{
+        display: flex !important;
+
+        //* setting cursor pointer for the button and its direct children. 
+        &, & > *{
+            cursor: pointer;
+        }
+
+    }
+
+    img{
+        position: absolute;
+        object-fit: contain;
+        transform: translate(-50%, -50%);
+        max-height: calc(80vh - var(--margin));        
+        cursor: grab;
+    }
+}

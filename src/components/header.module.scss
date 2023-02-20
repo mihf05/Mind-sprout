@@ -1,0 +1,30 @@
+.header{
+    // background-image: url(../assets/img/quick_start_hero.jpg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    --border-radius: 25px;
+    border-radius: var(--border-radius);
+    margin: .5rem;
+
+    @media only screen and (max-width: 700px) {
+        margin: 0;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+    }
+
+
+    padding: 5rem;
+    padding-inline: var(--heading-padding);
+    position: relative;
+
+    h1{
+        font-size: var(--heading-title);
+    }
+
+    p{
+        margin-top: .2rem;
+        font-size: var(--heading-sub-title);
+        word-spacing: 2px;
+    }
+
+}

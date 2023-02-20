@@ -1,0 +1,61 @@
+.button{
+    border: none;
+    color: var(--white);
+
+    padding-inline: clamp(1.7rem, 6vw, 4rem);
+    padding-block: clamp(.8rem, 2vw, 1rem);
+    
+    margin-top: 2rem;
+
+    background-color: var(--accent);
+    width: max-content;
+
+    border-radius: 1444rem;
+    font-size: 1rem;
+    font-weight: 600;
+    
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: .3rem;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow .25s ease-out, background-color .25s ease-out;
+    cursor: pointer;
+
+    opacity: 0;
+    animation: mount .3s ease-out forwards;
+    
+    @keyframes mount {
+        100% {opacity: 1}
+    }
+
+    &.red{
+        background-color: var(--accent-red);
+    }
+    
+    &.disable{
+        pointer-events: none;
+        background-color: grey; 
+    }
+
+    &::after{
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-color: white;
+        opacity: 0;
+        border-radius: 1234rem;
+        transition: opacity .25s ease-out;
+    }
+
+    &:hover{
+        box-shadow: 0 2px 2px 2px rgba(137, 137, 137, 0.252);
+
+        &::after{
+            opacity: .1;
+        }
+
+    }
+
+}

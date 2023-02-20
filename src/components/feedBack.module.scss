@@ -1,0 +1,68 @@
+.container{
+    --sliderHeight: 5px;
+    --padding: 1rem;
+    // padding-bottom: var(--sliderHeight);
+
+    display: none;
+
+    position: absolute;
+    background-color: var(--font-clr);
+    border-radius: 10px;
+    min-width: 200px;
+    color: var(--font-clr-100);
+
+    top: clamp(1rem, 4.5vw, 2rem);
+    right: clamp(1rem, 4.5vw, 2rem);
+
+    overflow: hidden;
+
+    //hide
+    translate: 110%;
+    opacity: 0;
+
+    &.active{
+        translate: 0;
+        opacity: 1;
+        transition-duration: .2s;
+    }
+
+    //* this transition value can break things; 
+    transition: all .3s ease-out;
+    transition-property: translate, opacity;
+
+    .wrapper{
+        padding: var(--padding);
+        display: flex;
+
+        &:has(img){
+            --padding: .7rem;
+            width: 50px;
+            border-right: 1px solid currentColor;
+
+            img{
+                object-fit: contain;
+            }
+        }
+    }
+
+    .wrapper:has(span){
+        border-right: 1px solid currentColor;
+    }
+
+    .slider{
+        background-color: currentColor;
+        height: var(--sliderHeight);
+        position: absolute;
+        right: 0;
+        left: 0;
+        bottom: 0;
+        animation: slider  2s ease-out .05s forwards;
+        
+    }
+
+    @keyframes slider {
+        100%{
+            left: 100%;
+        }
+    }
+}

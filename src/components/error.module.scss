@@ -1,0 +1,32 @@
+.wrapper{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.emoji{
+    font-size: 5rem;
+    color: rgb(135, 135, 135);
+}
+
+.title{
+    margin-top: 2rem;
+    font-size: 2rem;
+    font-weight: 600;
+}
+
+.subTitle{
+    font-size: .8rem;
+}
+
+.solution{
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.compliment{
+    font-size: .8rem;    
+}

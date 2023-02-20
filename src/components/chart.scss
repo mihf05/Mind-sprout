@@ -1,0 +1,123 @@
+.chartWrapper{
+    gap: 1rem;
+    
+    display: grid;
+    margin-top: 8rem;
+    grid-template-columns: repeat(3, 1fr);
+
+    .home{
+        .chartTitleSection{
+            span{
+                text-decoration: underline;
+            }
+            
+            p{
+                margin-bottom: -2px;
+            }
+        }
+    }
+
+    .chartTitleSection{
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        font-size: var(--content-sub-title);
+
+        font-weight: 500;
+        position: absolute;
+        top: -40px;
+        left: clamp(15px, 3vw, 30px);
+
+    }
+
+    &:has(.chart-active){
+        .home{
+            .chartTitleSection{
+                span{
+                    text-decoration: none;
+                }
+                p{
+                    display: none;
+                }
+            }
+        }
+        .chartTitleSection{
+            font-size: 10px;
+            top: -40px;
+            left: 50%;
+            translate: -50% ;
+            top: -10px;
+
+        }       
+    }
+
+
+    .chart-active{
+        order: -1;
+        grid-column: span 2;
+        grid-row: span 2;
+        display: grid;
+        place-items: center;
+        &.home{
+            .chartTitleSection{
+                span{
+                    text-decoration: underline;
+                }
+                p{
+                    display: block;
+                }
+            }
+        }
+
+        .chartTitleSection{
+            left: clamp(15px, 3vw, 30px);
+            translate: 0;
+            top: -40px;
+            font-size: var(--content-sub-title);
+
+
+            p{
+                display: block;
+            }
+        }   
+
+    }
+
+
+    @media only screen and (max-width: 1000px)  {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media only screen and (max-width: 700px)  {
+        grid-template-columns: 1fr;
+        gap: 6rem;
+        .chart{
+            order: initial !important;
+        }
+
+        .home{
+            .chartTitleSection{
+                gap: .2rem;
+                span{
+                    text-decoration: underline !important;
+                }
+                p{
+                    display: block !important;
+                    scale: .8;
+                }
+            }
+        }
+
+        .chartTitleSection{
+            font-size: var(--content-sub-title) !important;
+            left: clamp(15px, 3vw, 30px) !important;
+            translate: 0 !important;
+            top: -40px !important; 
+        }
+
+        .chart-active{
+            grid-column: auto;
+            grid-row: auto;
+        }
+    }
+}

@@ -1,0 +1,34 @@
+.container{
+    margin-bottom: 1rem;
+    display: flex;
+    gap: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    
+    background-color:  var(--noneSelected-bg-clr-10);
+    padding: .75rem;
+
+    border-radius: 1342rem;
+
+
+    .userLogo{
+        width: 32px;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+        overflow: hidden;
+        display: flex;
+    
+        img{
+            object-fit: cover;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    span{
+        align-self: center;
+    }
+
+}
+
+
