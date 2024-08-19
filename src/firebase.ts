@@ -1,20 +1,51 @@
 import { initializeApp } from "firebase/app";
-import { collection, getDocs, getFirestore, doc, setDoc, getDoc, query, limit, onSnapshot, updateDoc, deleteDoc, increment, serverTimestamp, orderBy, } from "firebase/firestore";
-import { GoogleAuthProvider, getAuth, signInWithPopup, signOut as firebaseSingOut, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, updateProfile, deleteUser } from "firebase/auth";
-
-import { defaultAppData, defaultPracticeData, stateType } from "./globalStates";
-
-import { deleteObject, getDownloadURL, getStorage, listAll, ref, uploadBytes} from "firebase/storage";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  doc,
+  setDoc,
+  getDoc,
+  query,
+  limit,
+  onSnapshot,
+  updateDoc,
+  deleteDoc,
+  increment,
+  serverTimestamp,
+  orderBy
+} from "firebase/firestore";
+import {
+  GoogleAuthProvider,
+  getAuth,
+  signInWithPopup,
+  signOut as firebaseSignOut,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  onAuthStateChanged,
+  updateProfile,
+  deleteUser,
+  User
+} from "firebase/auth";
+import {
+  deleteObject,
+  getDownloadURL,
+  getStorage,
+  listAll,
+  ref,
+  uploadBytes
+} from "firebase/storage";
+import { defaultAppData, defaultPracticeData, StateType } from "./globalStates";
 import userPhotoFallback from './assets/img/user.png';
 
 const firebaseConfig = {
-    apiKey: "AIzaSyBOxoXPHcPNS0sLU2knK2_tNHOQm-uC3Pc",
-    authDomain: "mindsprout.firebaseapp.com",
-    projectId: "mindsprout",
-    storageBucket: "mindsprout.appspot.com",
-    messagingSenderId: "1047811960255",
-    appId: "1:1047811960255:web:5f554dc75e9e800f08450a",
-    measurementId: "G-LSZ17SMXG9"
+  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
+  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
 const app = initializeApp(firebaseConfig);
@@ -23,22 +54,31 @@ const storage = getStorage(app);
 const auth = getAuth(app);
 const googleProvider = new GoogleAuthProvider();
 
-export function getQuestionsIndex(setShowError: any){
-    getDocs(collection(db, "questionIndex"))
-    .then((docs) => {
-        const returnObj: any = {};
-        docs.forEach(item => {
-            returnObj[item.id] = item.data()
-        })
-        sessionStorage.setItem("questionIndex", JSON.stringify(returnObj))
-    }).catch(() => setShowError(true))
+export async function getQuestionsIndex(setShowError: (error: boolean) => void): Promise<void> {
+    try {
+        const querySnapshot = await getDocs(collection(db, "questionIndex"));
+        const returnObj: Record<string, unknown> = {};
+        querySnapshot.forEach(doc => {
+            returnObj[doc.id] = doc.data();
+        });
+        sessionStorage.setItem("questionIndex", JSON.stringify(returnObj));
+    } catch (error) {
+        console.error("Error fetching question index:", error);
+        setShowError(true);
+    }
 }
 
-//code for checking if user is there;
-export function checkIfTheUserIsValid(user: any, setUser: any){
-    onAuthStateChanged(auth, (currentUser) => {
-        if(currentUser && user && (currentUser.uid !== user.uid))  setUser(null)
-        if(!currentUser)  setUser(null)
+// Check if the user is authenticated and valid
+export function checkIfTheUserIsValid(
+    user: User | null,
+    setUser: React.Dispatch<React.SetStateAction<User | null>>
+): () => void {
+    return onAuthStateChanged(auth, (currentUser) => {
+        if (!currentUser) {
+            setUser(null);
+        } else if (!user || currentUser.uid !== user.uid) {
+            setUser(currentUser);
+        }
     });
 }
 

@@ -1,81 +1,112 @@
-import { useState, createContext, useEffect } from 'react';
+import React, { useState, createContext, ReactNode, useEffect, Dispatch, SetStateAction } from 'react';
 import { getUserFromLocalStorage } from '../components/helper_functions/getItemFromLocalStorage';
-import { defaultAppData } from '../globalStates';
+import { defaultAppData, defaultPracticeData } from '../globalStates';
 
-export const modalContext = createContext<any>({showModal: false, componentToRender: null});
-export const ModalContextProvider = (props : any) => {
-    const context = useState({showModal: false, componentToRender: null});
-    return (
-        <modalContext.Provider value={context}>
-            {props.children}
-        </modalContext.Provider>
-    );
+interface ModalContextType {
+  showModal: boolean;
+  componentToRender: ReactNode | null;
 }
 
-export const userContext = createContext<any>(getUserFromLocalStorage("user"));
-export const UserContextProvider = (props : any) => {
-    const context = useState(getUserFromLocalStorage("user"));
-    const [ userData ] = context;
-    useEffect(() => {
-        if(userData == null) localStorage.removeItem("user");
-        else localStorage.setItem("user", JSON.stringify(userData))
-    }, [userData])
+type ModalContextValue = [ModalContextType, Dispatch<SetStateAction<ModalContextType>>];
 
-    return (
-        <userContext.Provider value={context}>
-            {props.children}
-        </userContext.Provider>
-    );
+export const modalContext = createContext<ModalContextValue>([
+  { showModal: false, componentToRender: null },
+  () => {}
+]);
+
+interface ContextProviderProps {
+  children: ReactNode;
 }
 
-export const appContext = createContext<any>(defaultAppData);
-export const AppContextProvider = (props : any) => {
-    const context = useState(defaultAppData);
+export const ModalContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
+  const context = useState<ModalContextType>({ showModal: false, componentToRender: null });
+  return (
+    <modalContext.Provider value={context}>
+      {children}
+    </modalContext.Provider>
+  );
+};
 
+interface UserData {
+  // Define the structure of your user data here
+  uid: string;
+  email: string;
+  displayName: string;
+  photoURL: string;
+}
+
+type UserContextType = [UserData | null, React.Dispatch<React.SetStateAction<UserData | null>>];
+
+export const userContext = createContext<UserContextType>([null, () => {}]);
+
+interface UserContextProviderProps {
+  children: ReactNode;
+}
+
+export const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) => {
+  const [userData, setUserData] = useState<UserData | null>(getUserFromLocalStorage("user"));
+
+  useEffect(() => {
+    if (userData === null) {
+      localStorage.removeItem("user");
+    } else {
+      localStorage.setItem("user", JSON.stringify(userData));
+    }
+  }, [userData]);
+
+  return (
+    <userContext.Provider value={[userData, setUserData]}>
+      {children}
+    </userContext.Provider>
+  );
+};
+
+export const appContext = createContext<[typeof defaultAppData, React.Dispatch<React.SetStateAction<typeof defaultAppData>>]>([defaultAppData, () => {}]);
+export const AppContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const context = useState<typeof defaultAppData>(defaultAppData);
     return (
         <appContext.Provider value={context}>
-            {props.children}
+            {children}
         </appContext.Provider>
     );
-}
+};
 
-export const practiceContext = createContext<any>(defaultAppData);
-export const PracticeContextProvider = (props : any) => {
-    const context = useState([]);
-
+export const practiceContext = createContext<[any[], React.Dispatch<React.SetStateAction<any[]>>]>([[], () => {}]);
+export const PracticeContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const context = useState<any[]>([]);
     return (
         <practiceContext.Provider value={context}>
-            {props.children}
+            {children}
         </practiceContext.Provider>
     );
-}
+};
 
-export const errorContext = createContext<any>(false);
-export const ErrorContextProvider = (props : any) => {
-    const context = useState(false);
+export const errorContext = createContext<[boolean, React.Dispatch<React.SetStateAction<boolean>>]>([false, () => {}]);
+export const ErrorContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const context = useState<boolean>(false);
     return (
         <errorContext.Provider value={context}>
-            {props.children}
+            {children}
         </errorContext.Provider>
     );
-}
+};
 
-export const feedBackContext = createContext<any>('false');
-export const FeedBackContextProvider = (props : any) => {
-    const context = useState<any>("false");
+export const feedBackContext = createContext<[string, React.Dispatch<React.SetStateAction<string>>]>(['false', () => {}]);
+export const FeedBackContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const context = useState<string>('false');
     return (
         <feedBackContext.Provider value={context}>
-            {props.children}
+            {children}
         </feedBackContext.Provider>
     );
-}
+};
 
-export const dayViewContext = createContext<any>(7);
-export const DayViewContextProvider = (props : any) => {
-    const context = useState<any>(7);
+export const dayViewContext = createContext<[number, React.Dispatch<React.SetStateAction<number>>]>([7, () => {}]);
+export const DayViewContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+    const context = useState<number>(7);
     return (
         <dayViewContext.Provider value={context}>
-            {props.children}
+            {children}
         </dayViewContext.Provider>
     );
-}
+};

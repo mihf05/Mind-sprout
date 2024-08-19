@@ -1,89 +1,146 @@
-import { useState, useEffect, useContext } from 'react';
-import SideMenu from './components/sideMenu';
-import Home from './components/home';
-import ChapterWise from './components/chapterWise';
-import SubjectWise from './components/subjectWise';
-import QuickStart from './components/quickStart';
-import PracticeSection from './components/practiceSection';
-import SideMenuQuestions from './components/sideMenuQuestions';
-import { checkIfTheUserIsValid, downLoadUrlWithInfo, setAppDataFireBase, setPracticeDataFirebase, getQuestionsIndex } from './firebase';
-import Modal from './components/modals/modal';
-import { modalContext, userContext, errorContext, appContext, practiceContext, feedBackContext} from './context/contextProvider';
+import React, { useState, useEffect, useContext } from 'react';
+import {
+  checkIfTheUserIsValid,
+  downLoadUrlWithInfo,
+  setAppDataFireBase,
+  setPracticeDataFirebase,
+  getQuestionsIndex
+} from './firebase';
+import {
+  modalContext,
+  userContext,
+  errorContext,
+  appContext,
+  practiceContext,
+  feedBackContext
+} from './context/contextProvider';
 import { closeSideMenu } from './components/helper_functions/closeSideMenu';
-import Login from './components/login';
-import Error from './components/error';
-import FeedBack from './components/feedBack';
-import Footer from './components/footer';
+import ChapterWise from './components/ChapterWise';
+import Error from './components/Error';
+import FeedBack from './components/FeedBack';
+import Footer from './components/Footer';
+import Home from './components/Home';
+import Login from './components/Login';
+import Modal from './components/modals/Modal';
+import PracticeSection from './components/PracticeSection';
+import QuickStart from './components/QuickStart';
+import SideMenu from './components/SideMenu';
+import SideMenuQuestions from './components/SideMenuQuestions';
+import SubjectWise from './components/SubjectWise';
 
 
-export default function App() {
-  const [sectionToRender, setSectionToRender] = useState("Home");
-  const [questionsToRender, setQuestionToRender] = useState<any>("");
-
+export default function App(): React.ReactElement {
+  const [sectionToRender, setSectionToRender] = useState<string>("Home");
+  const [questionsToRender, setQuestionToRender] = useState<string>("");
   const [urlWithInfo, setUrlWithInfo] = useState<downLoadUrlWithInfo>([]);
-  const [imgToRenderIndex, setImgToRenderIndex] = useState(0);  
-  const [showSolution, setShowSolution] = useState(false);
+  const [imgToRenderIndex, setImgToRenderIndex] = useState<number>(0);
+  const [showSolution, setShowSolution] = useState<boolean>(false);
   const [modalRender, setModalRender] = useContext(modalContext);
   const [userData, setUserData] = useContext(userContext);
   const [showError, setShowError] = useContext(errorContext);
-  const [, setAppData] = useContext(appContext)
-  const [, setPracticeData] = useContext(practiceContext)
+  const [, setAppData] = useContext(appContext);
+  const [, setPracticeData] = useContext(practiceContext);
 
   useEffect(() => {
-    checkIfTheUserIsValid(userData, setUserData);
-    getQuestionsIndex(setShowError)
-  }, [])
+    const checkUser = async () => {
+      try {
+        await checkIfTheUserIsValid(userData, setUserData);
+        await getQuestionsIndex(setShowError);
+      } catch (error) {
+        console.error("Error checking user or getting questions:", error);
+        setShowError(true);
+      }
+    };
+    checkUser();
+  }, [userData, setUserData, setShowError]);
 
   useEffect(() => {
-    if(userData) {
-      setAppDataFireBase(userData, setAppData, setShowError);
-      setPracticeDataFirebase(userData, setPracticeData, setShowError);
-    }
-  }, [userData])
-  
+    const setUserData = async () => {
+      if (userData) {
+        try {
+          await setAppDataFireBase(userData, setAppData, setShowError);
+          await setPracticeDataFirebase(userData, setPracticeData, setShowError);
+        } catch (error) {
+          console.error("Error setting user data:", error);
+          setShowError(true);
+        }
+      }
+    };
+    setUserData();
+  }, [userData, setAppData, setPracticeData, setShowError]);
 
-  function decideWhichComponentTORender(sectionName: string) : any {
+  const decideWhichComponentToRender = (sectionName: string): React.ReactElement => {
+    const commonProps = {
+      questionSetter: setQuestionToRender,
+      setSectionToRender: setSectionToRender,
+    };
+
     switch (sectionName) {
-      case "Quick start": return <QuickStart questionSetter={setQuestionToRender} {...{setSectionToRender}}/>
-      case "Subject wise": return <SubjectWise questionSetter={setQuestionToRender} {...{setSectionToRender}}/>
-      case "Chapter wise": return <ChapterWise questionSetter={setQuestionToRender} {...{setSectionToRender}}/>
-      case "Practice section": return <PracticeSection {...{showSolution, setShowSolution, setUrlWithInfo, setSectionToRender, urlWithInfo, imgToRenderIndex, setImgToRenderIndex, questionsToRender, setShowError}}/>
-      default: return <Home questionSetter={setQuestionToRender} {...{setSectionToRender}}/>
+      case "Quick start":
+        return <QuickStart {...commonProps} />;
+      case "Subject wise":
+        return <SubjectWise {...commonProps} />;
+      case "Chapter wise":
+        return <ChapterWise {...commonProps} />;
+      case "Practice section":
+        return (
+          <PracticeSection
+            showSolution={showSolution}
+            setShowSolution={setShowSolution}
+            setUrlWithInfo={setUrlWithInfo}
+            urlWithInfo={urlWithInfo}
+            imgToRenderIndex={imgToRenderIndex}
+            setImgToRenderIndex={setImgToRenderIndex}
+            questionsToRender={questionsToRender}
+            setShowError={setShowError}
+            {...commonProps}
+          />
+        );
+      default:
+        return <Home {...commonProps} />;
     }
-  }  
+  };
 
   return (
     <div className="App">
-      {
-        showError ? <Error/>
-        : userData ?
+      {showError ? (
+        <Error />
+      ) : userData ? (
         <>
-          <button className='sideMenuBlock' onClick={closeSideMenu}>
+          <button className="sideMenuBlock" onClick={closeSideMenu}>
             <span className="material-symbols-outlined">close</span>
           </button>
-          {
-            sectionToRender == "Practice section" ? 
-            <SideMenuQuestions {...{setShowSolution, setUrlWithInfo, setImgToRenderIndex, imgToRenderIndex, urlWithInfo}} sectionSetter={setSectionToRender}/> : 
-            <SideMenu state={sectionToRender} setter = {setSectionToRender}/> 
-          }
-            <div className="sectionFooterWrapper">
-              <div className='sectionsWrapper'>
-                {decideWhichComponentTORender(sectionToRender)}
-              </div>
-              {sectionToRender !== "Practice section" ? <Footer /> : null}
-            </div> 
-
-            <FeedBack/>
-
-          { modalRender.showModal ? 
-            <Modal click={() => {
-              setModalRender({showModal: false, componentToRender: null})
-            }}> {modalRender.componentToRender} </Modal>  : ""
-          } 
-        </> : <Login/> 
-      }
-
-    </div> 
-  )
+          {sectionToRender === "Practice section" ? (
+            <SideMenuQuestions
+              setShowSolution={setShowSolution}
+              setUrlWithInfo={setUrlWithInfo}
+              setImgToRenderIndex={setImgToRenderIndex}
+              imgToRenderIndex={imgToRenderIndex}
+              urlWithInfo={urlWithInfo}
+              sectionSetter={setSectionToRender}
+            />
+          ) : (
+            <SideMenu state={sectionToRender} setter={setSectionToRender} />
+          )}
+          <div className="sectionFooterWrapper">
+            <div className="sectionsWrapper">
+              {decideWhichComponentToRender(sectionToRender)}
+            </div>
+            {sectionToRender !== "Practice section" && <Footer />}
+          </div>
+          <FeedBack />
+          {modalRender.showModal && (
+            <Modal
+              click={() => setModalRender({ showModal: false, componentToRender: null })}
+            >
+              {modalRender.componentToRender}
+            </Modal>
+          )}
+        </>
+      ) : (
+        <Login />
+      )}
+    </div>
+  );
 }
 
